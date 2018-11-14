@@ -1,9 +1,10 @@
-from wtforms import Form, StringField, SelectField, DecimalField, IntegerField
+from flask_wtf import FlaskForm
+from wtforms import StringField, SelectField, DecimalField, IntegerField, SubmitField
 from wtforms.validators import DataRequired, NumberRange, Length
 
 
 #TODO: fix form flashing
-class AddFixedDepositForm(Form):
+class AddFixedDepositForm(FlaskForm):
     ischemes = [('Monthly', 'Monthly'),
                ('Quarterly', 'Quarterly'),
                ('Yearly', 'Yearly')]
@@ -16,6 +17,7 @@ class AddFixedDepositForm(Form):
     period = IntegerField('Deposit time period (days for now)')
     initial_deposit = DecimalField('Initial Deposit')
     final_deposit = DecimalField('Final Deposit') #TODO: Calculate final_deposit
+    submit = SubmitField('Submits')
 
 def create_deposit(deposit, form, new=False):
     """
