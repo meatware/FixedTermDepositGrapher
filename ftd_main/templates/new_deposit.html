@@ -4,7 +4,8 @@
     <h2>New deposit</h2>
 
     {% from "_formhelpers.html" import render_field %}
-    <form method=post>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
         <dl>
             {{ render_field(form.ac_no) }}
             {{ render_field(form.start_date) }}
@@ -15,6 +16,6 @@
             {{ render_field(form.initial_deposit) }}
             {{ render_field(form.final_deposit) }}
         </dl>
-        <p><input type=submit value=Submit>
+        <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}
