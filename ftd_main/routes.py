@@ -1,7 +1,7 @@
 from ftd_main import app, db
 from ftd_main.models import FixedDeposit
 from ftd_main.forms import AddFixedDepositForm, create_deposit, SubmitField
-from flask import flash, render_template, request, redirect
+from flask import flash, render_template, request, redirect, url_for
 
 @app.route('/')
 @app.route('/index')
@@ -25,6 +25,6 @@ def new_deposit():
         db.session.commit()
 
         flash('New Fixed Deposit created successfully!')
-        return redirect('/index')
+        return redirect(url_for('index'))
 
     return render_template('new_deposit.html',  title='Add Deposit', form=form)
