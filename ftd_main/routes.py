@@ -6,7 +6,9 @@ from flask import flash, render_template, request, redirect
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+
+    user = {"username": 'Tampopo'}
+    return render_template('index.html', title='Home', user=user)
 
 @app.route('/new_deposit', methods=['GET', 'POST'])
 def new_deposit():

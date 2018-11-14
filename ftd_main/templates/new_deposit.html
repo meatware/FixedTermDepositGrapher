@@ -1,18 +1,20 @@
-<doctype html>
-<title>New deposit - Flask Fixed Deposit Database</title>
-<h2>New deposit</h2>
- 
-{% from "_formhelpers.html" import render_field %}
-<form method=post>
-    <dl>
-        {{ render_field(form.ac_no) }}
-        {{ render_field(form.start_date) }}
-        {{ render_field(form.end_date) }}
-        {{ render_field(form.interest_rate) }}
-        {{ render_field(form.interest_scheme) }}
-        {{ render_field(form.period) }}
-        {{ render_field(form.initial_deposit) }}
-        {{ render_field(form.final_deposit) }}                           
-    </dl>
-    <p><input type=submit value=Submit>
-</form>
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>New deposit</h2>
+
+    {% from "_formhelpers.html" import render_field %}
+    <form method=post>
+        <dl>
+            {{ render_field(form.ac_no) }}
+            {{ render_field(form.start_date) }}
+            {{ render_field(form.end_date) }}
+            {{ render_field(form.interest_rate) }}
+            {{ render_field(form.interest_scheme) }}
+            {{ render_field(form.period) }}
+            {{ render_field(form.initial_deposit) }}
+            {{ render_field(form.final_deposit) }}
+        </dl>
+        <p><input type=submit value=Submit>
+    </form>
+{% endblock %}

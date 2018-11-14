@@ -1,0 +1,15 @@
+<doctype html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - FTDGraph</title>
+        {% else %}
+        <title>!FTDGraph!</title>
+        {% endif %}
+    </head>
+    <body>
+        <div><a href="/index">Home</a>
+          <a href="/new_deposit">New Deposit</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>
