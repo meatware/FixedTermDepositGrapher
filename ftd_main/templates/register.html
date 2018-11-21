@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Sign In</h1>
-
+    <h1>Register</h1>
     {% from "_formhelpers.html" import render_field %}
-    <form action="" method="post" novalidate>
+    <form action="" method="post">
         {{ form.hidden_tag() }}
         <dl>
             {{ render_field(form.username) }}
+            {{ render_field(form.email) }}
             {{ render_field(form.password) }}
+            {{ render_field(form.password2) }}
         </dl>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
-    <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
 {% endblock %}
