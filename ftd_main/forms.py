@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, DecimalField, IntegerField, SubmitField
+from wtforms import StringField, SelectField, DecimalField, IntegerField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, NumberRange, Length
 
 
@@ -37,9 +37,14 @@ def create_deposit(deposit, form, new=False):
 
     return deposit
 
-    #if new:
-    #   # Add the new deposit to the database
-    #   db_session.add(deposit)
+class Loginform(FlaskForm)    :
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Sign In')
 
-    # commit the data to the database
-    #db_session.commit()
+
+
+
+
+
