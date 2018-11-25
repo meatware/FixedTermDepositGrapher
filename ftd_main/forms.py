@@ -20,7 +20,7 @@ class AddFixedDepositForm(FlaskForm):
                ('Yearly', 'Yearly')]
 
     ac_no = StringField('Acc No', validators=[DataRequired(), Length(5, 50, "Length range from 5 to 50")]) # TODO: Fix so autoincrements for user
-    start_date = DateField('Start Date dd/mm/yyyy', validators=[DataRequired()], format='%d-%m-%Y', widget=DatePickerWidget()) #TODO: add validators
+    start_date = DateField('Start Date dd/mm/yyyy', validators=[DataRequired()], format='%d-%m-%Y') #, widget=DatePickerWidget()) #TODO: add validators
     end_date = StringField('End Date dd/mm/yyyy') #TODO: Calculate end_date
     interest_rate = DecimalField('Interest Rate (%)', validators=[DataRequired(), NumberRange(0, 100, "Please enter percentage range 0 to 100%")])
     interest_scheme = SelectField('Interest Scheme', choices=ischemes, validators=[DataRequired()])
