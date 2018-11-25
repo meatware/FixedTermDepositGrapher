@@ -8,7 +8,7 @@ from flask import flash, render_template, request, redirect, url_for
 from werkzeug.urls import url_parse
 
 
-@app.route('/favicon.ico')
+@app.route('/img/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                           'favicon.ico',mimetype='image/vnd.microsoft.icon')
