@@ -2,6 +2,7 @@
 import os, sys
 from datetime import datetime, timedelta
 from math import floor
+import grapher as plot
 
 def datetime_to_string(dt_obj):
     """Convert datetime object into string."""
@@ -36,22 +37,35 @@ def print_calc_verific(ref_string, maturity_val, ref_maturity_Amount):
 
     return
 
-def calc_approx_maturity(depo_dict):
+def calc_simple_maturity(depo_dict):
     principal = depo_dict["initial_deposit"]
     irate = depo_dict["interest_rate"]/100
     month_period = depo_dict["period"]
 
-    # insert calcs
-    get_freq = calc_freq(depo_dict["scheme"])
-    freq = get_freq["cum_freq"]
+    # monthly interest payouts
+    freq = 12
 
-    power_calc = freq * (month_period/12)
-    maturity_val = principal * (1 + irate/freq)**power_calc
+    simp_int = principal * (1 + (irate/freq) * month_period)
 
-    return round(maturity_val, 2)
+    return simp_int
+
+
+
+# def calc_approx_maturity(depo_dict):
+#     principal = depo_dict["initial_deposit"]
+#     irate = depo_dict["interest_rate"]/100
+#     month_period = depo_dict["period"]
+
+#     # insert calcs
+#     get_freq = calc_freq(depo_dict["scheme"])
+#     freq = get_freq["cum_freq"]
+
+#     power_calc = freq * (month_period/12)
+#     maturity_val = principal * (1 + irate/freq)**power_calc
+
+#     return round(maturity_val, 2)
 
 def calculate_daily_maturity(depo_dict):
-    # https://en.wikipedia.org/wiki/Rounding#Round_half_to_even
     #https://money.stackexchange.com/questions/10796/daily-interest-calculation-combined-with-monthly-compounding-why-do-banks-do-th
     principal = depo_dict["initial_deposit"]
     irate = depo_dict["interest_rate"]/100
@@ -76,31 +90,47 @@ def calculate_daily_maturity(depo_dict):
     cmpnd_days_list = [day_cmpnds for _ in range(full_n_cmpnds)]
     cmpnd_days_list.append(remain_cmpnd_days)
 
-    month_interest_li = []
-    month_maturity_li = []
+    # get compunding dates
+    cmpnd_dates_list = [start_date]
+    for datediff in cmpnd_days_list:
+        last_date = cmpnd_dates_list[-1]
+        next_date = last_date + timedelta(days=datediff)
+        cmpnd_dates_list.append(next_date)
+
+
+    month_interest_li = [0]
+    month_maturity_li = [principal]
     maturity_val = principal
     for qdays in cmpnd_days_list:
 
         month_interest = (daily_irate * maturity_val)* qdays
         month_interest_li.append(month_interest)
-        print("month_interest", month_interest)
+        #print("month_interest", month_interest)
 
         maturity_val = maturity_val + month_interest
         month_maturity_li.append(maturity_val)
 
+    print("\nmonth_interest_li", month_interest_li)
+    month_added_interest_li = []
+    added_intr = 0
+    for intrst in month_interest_li:
+        added_intr = added_intr + intrst
+        month_added_interest_li.append(added_intr)
+
+    print("month_added_interest_li", month_added_interest_li)
+    #sys.exit(0)
+
+    # TODO: figure out rounding rules: https://en.wikipedia.org/wiki/Rounding#Round_half_to_even
     print("cmpnd_days_list", cmpnd_days_list)
     print("\nmonth_interest_li", month_interest_li)
     print("\nmonth_maturity_li", month_maturity_li)
 
     return {"idaily_maturity": month_maturity_li[-1],
             "cmpnd_days_list": cmpnd_days_list,
+            "cmpnd_dates_list": cmpnd_dates_list,
             "month_interest_li": month_interest_li,
+            "month_added_interest_li": month_added_interest_li,
             "month_maturity_li": month_maturity_li}
-
-
-
-
-
 
 
 if __name__ == "__main__":
@@ -117,7 +147,7 @@ if __name__ == "__main__":
 
                 deposit_item = {}
                 for idx, value in enumerate(split_line):
-                    print("xx", idx, value)
+                    #print("xx", idx, value)
                     if value == "":
                         pass
                     else:
@@ -153,17 +183,34 @@ if __name__ == "__main__":
 
                 ##
                 print(deposit_item)
-                aprox_maturity_val = calc_approx_maturity(deposit_item)
+                # aprox_maturity_val = calc_approx_maturity(deposit_item)
 
-                print_calc_verific("aprox_maturity_calc", aprox_maturity_val, deposit_item["ref_maturity_Amount"])
+                # print_calc_verific("aprox_maturity_calc", aprox_maturity_val, deposit_item["ref_maturity_Amount"])
 
                 #################################################
                 print("\n################")
                 idaily_maturity_dic = calculate_daily_maturity(deposit_item)
 
                 print_calc_verific("idaily_maturity", idaily_maturity_dic["idaily_maturity"], deposit_item["ref_maturity_Amount"])
-                sys.exit(0)
 
+                ## append cumulative details to deposit
+                deposit_item["idaily_maturity"] = idaily_maturity_dic["idaily_maturity"]
+                deposit_item["cmpnd_days_list"] = idaily_maturity_dic["cmpnd_days_list"]
+                deposit_item["cmpnd_dates_list"] = idaily_maturity_dic["cmpnd_dates_list"]
+                deposit_item["month_interest_li"] = idaily_maturity_dic["month_interest_li"]
+                deposit_item["month_added_interest_li"] = idaily_maturity_dic["month_added_interest_li"]
+                deposit_item["month_maturity_li"] = idaily_maturity_dic["month_maturity_li"]
+
+                ##################################################
+                simp_int = calc_simple_maturity(deposit_item)
+
+                print_calc_verific("simple_interest", simp_int, deposit_item["ref_maturity_Amount"])
+
+                deposit_item["simple_interest"] = simp_int
+
+                #sys.exit(0)
+
+                ######################################################
                 ## file
                 dep_name = deposit_item["acc_no"]
                 all_deposits[dep_name] = deposit_item
@@ -172,5 +219,21 @@ if __name__ == "__main__":
                 print(key, value)
 
                 #sys.exit(0)
+            ######################################################
+            print("\n\n")
+            print("\n################################################")
+
+            labels = []
+            x_data = []
+            y_data = []
+            for key, value in all_deposits.items():
+                labels.append(key)
+                x_data.append(value["cmpnd_dates_list"])
+                #y_data.append(value["month_maturity_li"])
+                y_data.append(value["month_added_interest_li"])
+
+
+
+            plot.simple_bar(y_data)
 
 
