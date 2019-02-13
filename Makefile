@@ -1,6 +1,10 @@
 start:
 	docker-compose up -d
 
+synch:
+	#https://stackoverflow.com/questions/45723891/how-to-rsync-from-a-host-computer-to-docker-container-using-docker-cp
+	docker cp . /workspace
+
 logs:
 	docker-compose logs -f
 

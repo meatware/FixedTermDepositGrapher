@@ -10,13 +10,13 @@ RUN apk add --no-cache screen py3-setuptools vim bash && \
 
 WORKDIR /workspace
 
-RUN adduser --shell /bin/bash --disabled-password --gecos "" --uid 1500 firmstep
+RUN adduser --shell /bin/bash --disabled-password --gecos "" --uid 1500 panda
 
-RUN chown -R firmstep:firmstep /workspace
+RUN chown -R panda:panda /workspace
 
 # set path to pip install --user
 ENV PATH="/home/firmstep/.local/bin:${PATH}"
 
-USER firmstep
+USER panda
 
 CMD tail -f /dev/null
