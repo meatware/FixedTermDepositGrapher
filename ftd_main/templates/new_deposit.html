@@ -1,21 +1,29 @@
 {% extends "base.html" %}
+{% block scripts %}
+  {{ super() }}
+  {{ datepicker.loader() }} {# to load jQuery-ui #}
+  {{ datepicker.picker(id=".dp") }}
+{% endblock %}
 
 {% block content %}
-    <h2>New deposit</h2>
+  <h2>New deposit</h2>
 
-    {% from "_formhelpers.html" import render_field %}
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <dl>
-            {{ render_field(form.ac_no) }}
-            {{ render_field(form.start_date) }}
-            {{ render_field(form.end_date) }}
-            {{ render_field(form.interest_rate) }}
-            {{ render_field(form.interest_scheme) }}
-            {{ render_field(form.period) }}
-            {{ render_field(form.initial_deposit) }}
-            {{ render_field(form.final_deposit) }}
-        </dl>
-        <p>{{ form.submit() }}</p>
-    </form>
+  {% from "_formhelpers.html" import render_field %}
+  <form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <dl>
+      {{ render_field(form.ac_no) }}
+      {{ render_field(form.start_date) }}
+      {{ render_field(form.end_date) }}
+      {{ render_field(form.interest_rate) }}
+      {{ render_field(form.interest_scheme) }}
+      {{ render_field(form.period) }}
+      {{ render_field(form.initial_deposit) }}
+      {{ render_field(form.final_deposit) }}
+      <form class="verticalform">
+        <input type="text" class="form-control dp" />
+      </form>
+    </dl>
+      <p>{{ form.submit() }}</p>
+  </form>
 {% endblock %}

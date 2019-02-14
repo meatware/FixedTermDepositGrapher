@@ -1,33 +1,69 @@
-<doctype html>
-    <head>
-        {% if title %}
-        <title>{{ title }} - FTDGraph</title>
-        {% else %}
-        <title>!FTDGraph!</title>
-        {% endif %}
-    </head>
-    <body>
-        <div><a href="{{ url_for('index') }}">Home</a>
-          <a href="{{ url_for('new_deposit') }}">New Deposit</a>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS Theme from https://bootswatch.com/ -->
+    <link rel="stylesheet" href="./static/scss/bootstrap.min.css">
+
+    {% if title %}
+      <title>{{ title }} - FTDGraph</title>
+    {% else %}
+      <title>!FTDGraph!</title>
+    {% endif %}
+
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <a class="navbar-brand" href="#">FTDGraph</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{{ url_for('index') }}">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('new_deposit') }}">New Deposit</a>
+          </li>
           {% if current_user.is_anonymous %}
-          <a href="{{ url_for('register') }}">Register</a>
-          <a href="{{ url_for('login') }}">Login</a>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+            </li>
           {% else %}
-          <a href="{{ url_for('logout') }}">Logout</a>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </li>
           {% endif %}
-        </div>
-        <hr>
-
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
         </ul>
-        {% endif %}
-        {% endwith %}
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
 
-        {% block content %}{% endblock %}
-    </body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+      {% for message in messages %}
+       <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+    <script src="static/js/bootstrap.bundle.min.js" </script>
+  </body>
 </html>

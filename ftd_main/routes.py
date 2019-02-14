@@ -10,7 +10,7 @@ from werkzeug.urls import url_parse
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
+    return send_from_directory(os.path.join(app.root_path, 'static/img'),
                           'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 @app.route('/register', methods=['GET', 'POST'])
