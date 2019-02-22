@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        USER_ID: $USER_ID
+    environment:
+      DOCKER_ENVIRONMENT: 'True'
+      HOST: db_ftd
+      USER: panda
+      PORT: 3306
+      PASSWORD: panda
+      DB_NAME: ftd
+    links:
+      - db_ftd
+    volumes:
+      - .:/workspace
+    ports:
+      - "127.0.0.1:3000:3000"
+    container_name: ftd_app
+
+  db_ftd:
+    image: mysql/mysql-server:5.6
+    ports:
+      - "127.0.0.1:3306:3306"
+    environment:
+      MYSQL_USER: panda
+      MYSQL_PASSWORD: panda
+      MYSQL_DATABASE: ftd
+    container_name: ftd_db
