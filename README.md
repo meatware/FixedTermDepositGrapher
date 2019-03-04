@@ -1,4 +1,6 @@
-# FixedTermDepositGrapher
+
+ttps://www.blog.pythonlibrary.org/2017/12/12/flask-101-getting-started/
+sitGrapher
 
 ### How to run Docker in local
 
@@ -6,9 +8,8 @@
 `make start`
 
 #### Init Database
-1) `make init_migration`
-2) `make migrate`
-3) `make upgrade`
+1) `make init_migrate`
+2) `make upgrade`
 
 ### Run app
 `make serve`

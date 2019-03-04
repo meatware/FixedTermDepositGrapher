@@ -1,12 +1,8 @@
 start:
-	docker-compose up -d
+	bash ./.makefile/start.sh
 
 clean:
-	docker rmi $(docker images)
-
-synch:
-	#https://stackoverflow.com/questions/45723891/how-to-rsync-from-a-host-computer-to-docker-container-using-docker-cp
-	docker cp . /workspace
+	bash ./.makefile/clean.sh
 
 logs:
 	docker-compose logs -f
@@ -45,7 +41,5 @@ downgrade:
 pycodestyle:
 	docker-compose exec -T authorizer pycodestyle /workspace/ --exclude=.serverless,node_modules
 
-
 test:
 	docker-compose exec -T authorizer pytest
-

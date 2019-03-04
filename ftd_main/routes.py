@@ -31,7 +31,7 @@ def register():
             return redirect(url_for('login'))
     except Exception as e:
         flash(f'Error - {str(e)}') #TODO: Create error logs
-    
+
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
