@@ -1,6 +1,10 @@
-from ftd_main import db, login
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, LoginManager
+
+db = SQLAlchemy()
+login = LoginManager()
+login.login_view = 'login'
 
 @login.user_loader
 def load_user(id):
@@ -18,8 +22,8 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
-    password_hash = db.Column(db.String(128))
-    deposits =db.relationship('FixedDeposit', backref='author', lazy='dynamic')
+    password_hash = db.Column(db.String(256))
+    deposits = db.relationship('FixedDeposit', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -29,11 +33,11 @@ class FixedDeposit(db.Model):
     __tablename__ = "deposits"
 
     id = db.Column(db.Integer, primary_key=True) #TODO: change to acc_no?
-    ac_no = db.Column(db.String)
-    start_date = db.Column(db.String) #db.DateTime, index=True)
-    end_date = db.Column(db.String) #, index=True)
+    ac_no = db.Column(db.String(255))
+    start_date = db.Column(db.DateTime) #db.DateTime, index=True)
+    end_date = db.Column(db.DateTime) #, index=True)
     interest_rate = db.Column(db.Float)
-    interest_scheme = db.Column(db.String)
+    interest_scheme = db.Column(db.String(255))
     period = db.Column(db.Integer)
     initial_deposit = db.Column(db.Float)
     final_deposit = db.Column(db.Float)

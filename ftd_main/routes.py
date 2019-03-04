@@ -1,12 +1,14 @@
 import os
 from flask import send_from_directory
-from ftd_main import app, db
+from ftd_main import create_app
 from flask_login import current_user, login_user, logout_user, login_required
-from ftd_main.models import FixedDeposit, User
+from ftd_main.models import db, FixedDeposit, User
 from ftd_main.forms import AddFixedDepositForm, Loginform, RegistrationForm, create_deposit
 from flask import flash, render_template, request, redirect, url_for
 from werkzeug.urls import url_parse
 
+# init app
+app = create_app()
 
 @app.route('/favicon.ico')
 def favicon():
@@ -15,16 +17,21 @@ def favicon():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('login'))
+    try:
+        if current_user.is_authenticated:
+            return redirect(url_for('index'))
+        form = RegistrationForm()
+
+        if form.validate_on_submit():
+            user = User(username=form.username.data, email=form.email.data)
+            user.set_password(form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            flash('Congratulations, you are now a registered user!')
+            return redirect(url_for('login'))
+    except Exception as e:
+        flash(f'Error - {str(e)}') #TODO: Create error logs
+
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
