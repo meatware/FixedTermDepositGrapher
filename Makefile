@@ -10,11 +10,11 @@ logs:
 stop:
 	docker-compose stop
 
-init_db:
-	bash ./.makefile/init_db.sh
+# init_db:
+# 	bash ./.makefile/init_db.sh
 
-load:
-	docker exec -it ftd_app sh
+enter:
+	docker exec -it ftd_app bash
 
 exec:
 	docker-compose exec -T myapp $(COMMAND)
@@ -41,5 +41,6 @@ downgrade:
 pycodestyle:
 	docker-compose exec -T authorizer pycodestyle /workspace/ --exclude=.serverless,node_modules
 
+# tests
 test:
 	docker-compose exec -T authorizer pytest

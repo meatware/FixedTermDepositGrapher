@@ -5,14 +5,19 @@ sitGrapher
 ### How to run Docker in local
 
 #### Build
-`make start`
+`make start` (creates container and installs requirement file)
 
 #### Init Database
-1) `make init_migrate`
-2) `make upgrade`
+1) `make init_migrate` (initialise database & migration folder)
+2) `make migrate` (pouplate db fields from models)
+3) `make upgrade` (when changing models to modify db)
 
 ### Run app
-`make serve`
+`make serve` run app
+
+### Shutdown app
+1) `make stop`
+2) `make clean` (clean out all traces of app to start again)
 
 https://scotch.io/tutorials/build-a-crud-web-app-with-python-and-flask-part-one#comments
 
