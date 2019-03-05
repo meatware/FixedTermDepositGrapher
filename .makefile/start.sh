@@ -1,4 +1,5 @@
 #!/bin/bash
 
-export USER_ID=`id -u`
+source ./.makefile/docker-userid.sh
+
 docker-compose up -d

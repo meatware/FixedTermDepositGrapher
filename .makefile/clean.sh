@@ -1,8 +1,9 @@
 #!/bin/bash
 
-IMAGES=$(docker-compose images)
-docker-compose rm --force # this seems too general stx shit
-docker rmi -f $IMAGES
+source ./.makefile/docker-userid.sh
 
-docker network prune --force # make more selective or poss not if localised to a directory
+docker-compose rm --force
+docker rmi -f fixedtermdepositgrapher_app
+
+docker network rm fixedtermdepositgrapher_default
 docker volume prune --force # make more selective
