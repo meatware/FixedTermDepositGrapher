@@ -8,14 +8,14 @@ sitGrapher
 `make start` (creates container and installs requirement file)
 
 #### Init Database
-1) `make init_migrate` (initialise database & migration folder)
-2) `make migrate` (pouplate db fields from models)
+1) `make init_migrate` (initialise database & migration folder - run once)
+2) `make migrate` (populate db fields from models)
 3) `make upgrade` (when changing models to modify db)
 
-### Run app
+#### Run app
 `make serve` run app
 
-### Shutdown app
+#### Shutdown app
 1) `make stop`
 2) `make clean` (clean out all traces of app to start again)
 
